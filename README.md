@@ -1,0 +1,2 @@
+# VibrationProject_Game
+振動デバイスを利用したゲームのリポジトリです
