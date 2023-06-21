@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6684504636128279971}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1041165049540971171
 MonoBehaviour:
@@ -63,51 +63,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateName: Running
---- !u!1 &6684504635487440619
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6684504635487440618}
-  - component: {fileID: 6684504635487440617}
-  m_Layer: 0
-  m_Name: Aimer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6684504635487440618
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6684504635487440619}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6684504636128279971}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6684504635487440617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6684504635487440619}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b435dcdfa59c3f84a8b3ce6d720cbd2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  core: {fileID: 6684504636128279982}
 --- !u!1 &6684504636128279976
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,6 +76,7 @@ GameObject:
   - component: {fileID: 6684504636128279981}
   - component: {fileID: 6684504636128279982}
   - component: {fileID: 6684504636128279983}
+  - component: {fileID: 5891598750878139862}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -140,7 +96,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6684504635487440618}
   - {fileID: 1640001041014540085}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -245,3 +200,22 @@ MonoBehaviour:
   movingDuration: 0.3
   movingSideEase: 28
   movingForwardDistance: 0.1
+--- !u!114 &5891598750878139862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6684504636128279976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b435dcdfa59c3f84a8b3ce6d720cbd2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  core: {fileID: 6684504636128279982}
+  aimThreshold: 0.5
+  aimReturnThreshold: 0.1
+  aimAngle: 45
+  aimDuration: 0.25
+  aimEasing: 27
+  currentDirection: 1

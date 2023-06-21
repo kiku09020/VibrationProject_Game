@@ -25,7 +25,7 @@ namespace Game.Player {
 		[SerializeField,Tooltip("現在プレイヤーがいる道")]
 		Roads currentRoad = Roads.middle;
 
-		[SerializeField, Tooltip("左右移動距離"), Range(0, 1)]
+		[SerializeField, Tooltip("左右移動距離"), Range(0, 10)]
 		float movingSideDistance = .5f;
 
 		[SerializeField, Tooltip("移動時間"), Range(0, 3)]
