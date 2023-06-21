@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ObjectComponentBase<T> : MonoBehaviour where T : IObjectCore
+public abstract class ObjectComponentBase<T> : MonoBehaviour where T : ObjectCore
 {
     [Header("Core")]
-    [SerializeField] T core;
+    [SerializeField] protected T core;
 
     //--------------------------------------------------
 

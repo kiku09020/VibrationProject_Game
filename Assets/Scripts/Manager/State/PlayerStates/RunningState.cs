@@ -3,18 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Player.State {
-    public class RunningState : MonoBehaviour {
+    public class RunningState : PlayerStateBase {
 
-        //--------------------------------------------------
+		//--------------------------------------------------
 
-        void Awake()
-        {
+		public override void OnEnter()
+		{
 
-        }
+		}
 
-        void Update()
-        {
+		public override void OnUpdate()
+		{
 
-        }
-    }
+		}
+
+		public override void OnExit()
+		{
+
+		}
+	}
 }

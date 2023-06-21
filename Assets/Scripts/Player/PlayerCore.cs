@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Player {
-    public class PlayerCore : MonoBehaviour,IObjectCore {
+    public class PlayerCore : ObjectCore {
 
         [SerializeField] PlayerDataReceiver dataReceiver;
 
@@ -15,15 +15,8 @@ namespace Game.Player {
         public PlayerDataReceiver DataReceiver { get => dataReceiver; }
 
         /* Events */
-        /// <summary>
-        /// Startで実行されるイベント
-        /// </summary>
-        public event Action OnStartEvent;
-
-        /// <summary>
-        /// Updateで実行されるイベント
-        /// </summary>
-        public event Action OnUpdateEvent;
+        public override event Action OnStartEvent;
+        public override event Action OnUpdateEvent;
 
         //--------------------------------------------------
 
@@ -32,9 +25,42 @@ namespace Game.Player {
             OnStartEvent();
         }
 
-        void Update()
+        void FixedUpdate()
         {
             OnUpdateEvent();
+        }
+
+        //--------------------------------------------------
+
+        /// <summary>
+        /// プレイヤーのコンポーネントを取得
+        /// </summary>
+        /// <typeparam name="T">コンポーネント</typeparam>
+        /// <param name="checkChildren">子のコンポーネントを含めるか</param>
+        /// <returns>コンポーネント</returns>
+        /// <exception cref="Exception"></exception>
+        public T GetPlayerComponent<T>(bool checkChildren = false) where T : PlayerBaseComponent
+        {
+            // ゲームオブジェクトのコンポーネントを取得する
+            if (GetComponent<T>() is T comp) {
+                return comp;
+            }
+
+            // 子オブジェクトのコンポーネントを取得する
+            if(checkChildren) {
+                T childComp;
+
+                for (int i = 0; i < transform.childCount; i++) {
+                    childComp = transform.GetChild(i).GetComponent<T>();        // 取得
+
+                    if (childComp != null) {        // nullじゃなければ返す
+                        return childComp;
+                    }
+                }
+            }
+
+            // 例外
+            throw new Exception("コンポーネントが見つかりませんでした");
         }
     }
 }

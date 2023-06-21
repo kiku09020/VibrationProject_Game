@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace GameController.State {
 	public abstract class StateMatchineBase<T,U> : ObjectComponentBase<U> 
-		where T : StateBase where U: IObjectCore{
+		where T : StateBase where U: ObjectCore{
 
 		[Header("State")]
 		[SerializeField] T initState;

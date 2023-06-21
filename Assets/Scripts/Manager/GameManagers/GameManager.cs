@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour,IObjectCore
+public class GameManager : ObjectCore
 {
-    public event Action OnStartEvent;
-    public event Action OnUpdateEvent;
+	public override event Action OnStartEvent;
+	public override event Action OnUpdateEvent;
 
-    //--------------------------------------------------
+	//--------------------------------------------------
 
-    void Start()
+	void Start()
     {
         OnStartEvent();
     }
