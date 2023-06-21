@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Player {
-    public class PlayerCore : MonoBehaviour {
+    public class PlayerCore : MonoBehaviour,IObjectCore {
 
         [SerializeField] PlayerDataReceiver dataReceiver;
 
