@@ -10,6 +10,10 @@ namespace Game.Bullet
 		[Header("Components")]
 		[SerializeField] Rigidbody rb;
 
+		[Header("Objects")]
+		[SerializeField] ParticleSystem shotParticle;
+
+		[Header("Parameters")]
 		[SerializeField,Tooltip("削除されるまでの時間")] 
 		float destoiedTime = 3;
 
@@ -22,9 +26,14 @@ namespace Game.Bullet
 
 		public void Shot(Transform playerTransform,float power)
 		{
-			Vector3 forward = playerTransform.forward;
+			// 発射
+			rb.AddForce(playerTransform.forward * power, ForceMode.Impulse);
 
-			rb.AddForce(forward * power, ForceMode.Impulse);
+			// パーティクル生成
+			var partObj= Instantiate(shotParticle, transform.position, Quaternion.identity);
+			var shape = partObj.shape;
+			shape.rotation = playerTransform.eulerAngles;
+
 		}
 	}
 }

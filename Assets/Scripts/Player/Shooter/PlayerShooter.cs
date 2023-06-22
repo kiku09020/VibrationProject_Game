@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Game.Bullet;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,6 +25,14 @@ namespace Game.Player
 		[SerializeField, Tooltip("長押し可能か")]
 		bool enableLongPressShot;
 
+		[Header("Reaction")]
+		[SerializeField, Tooltip("サイズ")]
+		Vector2 reactedSize;
+		[SerializeField, Tooltip("時間")]
+		float reatedDuration = .5f;
+		[SerializeField, Tooltip("イージング")]
+		Ease reactedEasing;
+
 		//--------------------------------------------------
 
 		protected override void OnUpdate()
@@ -38,7 +47,9 @@ namespace Game.Player
 
 				// 弾のインスタンス化
 				var bltObj = Instantiate(bullet, transform.position, Quaternion.identity);			// 発射位置：shooter基準
-				bltObj.GetCoreComponent<BulletShoted>().Shot(core.transform, shotPower);			// 正面方向：Player基準
+				bltObj.GetCoreComponent<BulletShoted>().Shot(core.transform, shotPower);            // 正面方向：Player基準
+
+				core.transform.DOScale(reactedSize, reatedDuration).SetEase(reactedEasing).SetLoops(2, LoopType.Yoyo);
 			}
 
 			else if(isCoolTime) {
