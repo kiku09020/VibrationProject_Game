@@ -9,21 +9,29 @@ namespace Game.Player {
 	/// </summary>
     public class PlayerAimer : PlayerBaseComponent {
 
-		[SerializeField, Tooltip("照準移動閾値"), Range(0, 1)]
-		float aimThreshold = .6f;
-		[SerializeField, Tooltip("照準移動閾値(戻り)"), Range(-1, 1)]
-		float aimReturnThreshold = .6f;
+		[Header("Controll")]
+		[SerializeField, Tooltip("照準上移動閾値"), Range(0, 1)]
+		float aimThresholdUp = .6f;
+		[SerializeField, Tooltip("照準下移動閾値"), Range(-.5f, .5f)]
+		float aimThresholdDown = .6f;
 
+		[Header("CheckX")]
+		[SerializeField, Tooltip("左右移動の閾値チェックするか。" )]
+		bool checkAimThresholdX = true;
+
+		[SerializeField, Tooltip("移動X閾値。この値以下のときのみ、上下照準移動する"), Range(0, 1)]
+		float movingThresholdX = .5f;
+
+		[Header("Aiming")]
 		[SerializeField, Tooltip("照準の角度"), Range(0, 90)]
 		float aimAngle = 30;
-
 		[SerializeField, Tooltip("照準移動時間"), Range(0, 1)]
 		float aimDuration = .5f;
-
 
 		[SerializeField, Tooltip("照準イージング")]
 		Ease aimEasing;
 
+		[Header("Direction")]
 		[SerializeField, Tooltip("現在の方向")]
 		Direction currentDirection = Direction.down;
 
@@ -43,19 +51,48 @@ namespace Game.Player {
 
 		void Aiming()
 		{
-			if (core.DataReceiver.Gyro.y >= aimThreshold && currentDirection == Direction.down) {
+			if (CheckAimMovable(Direction.up)) {
 				core.transform.DORotate(new Vector3(-aimAngle, 0, 0), aimDuration)
 					.SetEase(aimEasing);
 
 				currentDirection = Direction.up;
 			}
 
-			else if (core.DataReceiver.Gyro.y <= aimReturnThreshold && currentDirection == Direction.up){
+			else if (CheckAimMovable(Direction.down)) {
 				core.transform.DORotate(new Vector3(0, 0, 0), aimDuration)
 					.SetEase(aimEasing);
 
 				currentDirection = Direction.down;
 			}
+		}
+
+		// 照準移動可能かを確認する
+		bool CheckAimMovable(Direction checkDirection)
+		{
+			switch(checkDirection) {
+				case Direction.up:
+					if (core.DataReceiver.Gyro.y >= aimThresholdUp) {
+						break;
+					}
+					return false;
+
+					case Direction.down:
+					if (core.DataReceiver.Gyro.y <= aimThresholdDown) {
+						break;
+					}
+
+					return false;
+			}
+
+			// 傾きのXが移動閾値以下か かつ 方向が現在の方向ではないとき
+			// ※左右に傾けながら上下に照準移動しないようにするための判定です
+			if ((Mathf.Abs(core.DataReceiver.Gyro.x) <= movingThresholdX) || !checkAimThresholdX) {
+				if (currentDirection != checkDirection) {
+					return true;
+				}
+			}
+			
+			return false;
 		}
 	}
 }

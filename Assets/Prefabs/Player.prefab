@@ -1,5 +1,76 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3211440693181342678
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2431471097838689867}
+  - component: {fileID: 139327645384129994}
+  - component: {fileID: 8785430718761241874}
+  m_Layer: 0
+  m_Name: Shooter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2431471097838689867
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3211440693181342678}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6684504636128279971}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &139327645384129994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3211440693181342678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b435dcdfa59c3f84a8b3ce6d720cbd2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  core: {fileID: 6684504636128279982}
+  aimThresholdUp: 0.75
+  aimThresholdDown: 0.1
+  checkAimThresholdX: 1
+  movingThresholdX: 0.5
+  aimAngle: 30
+  aimDuration: 0.25
+  aimEasing: 27
+  currentDirection: 1
+--- !u!114 &8785430718761241874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3211440693181342678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78695a5ffe527c9408a4600d70077242, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  core: {fileID: 6684504636128279982}
+  bullet: {fileID: 6623940215688847727, guid: 119ee5b425fe7c841b1ad82a38d6e93d, type: 3}
+  shotPower: 50
+  coolTimeLimit: 0.5
+  enableLongPressShot: 0
 --- !u!1 &6360977299982701543
 GameObject:
   m_ObjectHideFlags: 0
@@ -31,7 +102,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6684504636128279971}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1041165049540971171
 MonoBehaviour:
@@ -76,7 +147,6 @@ GameObject:
   - component: {fileID: 6684504636128279981}
   - component: {fileID: 6684504636128279982}
   - component: {fileID: 6684504636128279983}
-  - component: {fileID: 5891598750878139862}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -96,6 +166,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2431471097838689867}
   - {fileID: 1640001041014540085}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -142,7 +213,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -192,30 +263,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   core: {fileID: 6684504636128279982}
-  movingThreshold: 0.75
+  movingThreshold: 0.5
   movingCoolTimeLimit: 0.25
   continueTilted: 0
   currentRoad: 1
-  movingSideDistance: 1
+  movingSideDistance: 2
   movingDuration: 0.3
   movingSideEase: 28
   movingForwardDistance: 0.1
---- !u!114 &5891598750878139862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6684504636128279976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b435dcdfa59c3f84a8b3ce6d720cbd2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  core: {fileID: 6684504636128279982}
-  aimThreshold: 0.5
-  aimReturnThreshold: 0.1
-  aimAngle: 45
-  aimDuration: 0.25
-  aimEasing: 27
-  currentDirection: 1

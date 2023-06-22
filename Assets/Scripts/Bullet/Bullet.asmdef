@@ -1,9 +1,8 @@
 {
-    "name": "Player",
-    "rootNamespace": "Game.Player",
+    "name": "Bullet",
+    "rootNamespace": "Game.Bullet",
     "references": [
-        "Base",
-        "Bullet"
+        "GUID:71144de870776c14bb889aac977d2a41"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

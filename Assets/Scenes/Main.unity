@@ -272,8 +272,8 @@ MonoBehaviour:
   m_ZDamping: 0
   m_TargetMovementOnly: 1
   m_ScreenX: 0.5
-  m_ScreenY: 0.75
-  m_CameraDistance: 2
+  m_ScreenY: 1
+  m_CameraDistance: 3
   m_DeadZoneWidth: 2
   m_DeadZoneHeight: 2
   m_DeadZoneDepth: 5
@@ -466,7 +466,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.7320509, z: -6}
+  m_LocalPosition: {x: 0, y: 1.7320507, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -668,7 +668,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2085659293}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.7320509, z: -6}
+  m_LocalPosition: {x: 0, y: 1.7320507, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -715,10 +715,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5891598750878139862, guid: 4823d0f9cdc95ef4eb56011b8cb07b03, type: 3}
-      propertyPath: aimThreshold
-      value: 0.75
-      objectReference: {fileID: 0}
     - target: {fileID: 6684504636128279971, guid: 4823d0f9cdc95ef4eb56011b8cb07b03, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -767,29 +763,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 6684504636128279980, guid: 4823d0f9cdc95ef4eb56011b8cb07b03, type: 3}
-      propertyPath: m_Color.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6684504636128279980, guid: 4823d0f9cdc95ef4eb56011b8cb07b03, type: 3}
-      propertyPath: m_Color.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6684504636128279980, guid: 4823d0f9cdc95ef4eb56011b8cb07b03, type: 3}
-      propertyPath: m_Color.r
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6684504636128279981, guid: 4823d0f9cdc95ef4eb56011b8cb07b03, type: 3}
       propertyPath: handler
       value: 
       objectReference: {fileID: 271782222}
-    - target: {fileID: 6684504636128279983, guid: 4823d0f9cdc95ef4eb56011b8cb07b03, type: 3}
-      propertyPath: movingThreshold
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6684504636128279983, guid: 4823d0f9cdc95ef4eb56011b8cb07b03, type: 3}
-      propertyPath: movingSideDistance
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4823d0f9cdc95ef4eb56011b8cb07b03, type: 3}
