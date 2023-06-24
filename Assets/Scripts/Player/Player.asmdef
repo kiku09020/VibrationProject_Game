@@ -3,7 +3,8 @@
     "rootNamespace": "Game.Player",
     "references": [
         "Base",
-        "Bullet"
+        "Bullet",
+        "UniTask"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

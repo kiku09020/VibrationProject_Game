@@ -12,7 +12,6 @@ namespace Game.Player
 		[SerializeField, Tooltip("弾")]
 		BulletCore bullet;
 
-
 		[Header("Parameters")]
 		[SerializeField, Tooltip("発射力")]
 		float shotPower = 100;
@@ -33,11 +32,22 @@ namespace Game.Player
 		[SerializeField, Tooltip("イージング")]
 		Ease reactedEasing;
 
+		[Header("Componets")]
+		[SerializeField] SEManager manager;
+
 		//--------------------------------------------------
 
 		protected override void OnUpdate()
 		{
 			Shoot();
+
+			if (Input.GetKeyDown(KeyCode.Space)) {
+				AudioManager<BGMManager>.PauseAllAudio();
+			}
+
+			if(Input.GetKeyUp(KeyCode.Space)) {
+				AudioManager<BGMManager>.UnpauseAllAudio();
+			}
 		}
 
 		void Shoot()
@@ -50,6 +60,10 @@ namespace Game.Player
 				bltObj.GetCoreComponent<BulletShoted>().Shot(core.transform, shotPower);            // 正面方向：Player基準
 
 				core.transform.DOScale(reactedSize, reatedDuration).SetEase(reactedEasing).SetLoops(2, LoopType.Yoyo);
+
+				manager
+					.SetPitchWithTween(1, 1.5f, .25f)
+				   .PlayRandomSE();
 			}
 
 			else if(isCoolTime) {

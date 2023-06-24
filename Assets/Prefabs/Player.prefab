@@ -150,7 +150,6 @@ GameObject:
   - component: {fileID: 6684504636128279981}
   - component: {fileID: 6684504636128279982}
   - component: {fileID: 6684504636128279983}
-  - component: {fileID: 5106882968049368217}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -275,16 +274,3 @@ MonoBehaviour:
   movingDuration: 0.3
   movingSideEase: 28
   movingForwardDistance: 0.1
---- !u!114 &5106882968049368217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6684504636128279976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0945eaa561ed2944808b4f81263aad7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  core: {fileID: 6684504636128279982}
