@@ -43,7 +43,7 @@ public class SEManager : AudioManager<SEManager>
 	/// <param name="isParamReset">ƒ‰ƒ“ƒ_ƒ€—v‘f‚ÉŠÜ‚ß‚é‰¹º–¼</param>
 	public async void PlayRandomSE(bool isParamReset = false)
 	{
-		await PlayAudio(GetRandomClip(dataList.Count), isParamReset);
+		await PlayAudio(GetRandomClip(audioDataList.DataList.Count), isParamReset);
 	}
 
 	/// <summary>
@@ -54,7 +54,7 @@ public class SEManager : AudioManager<SEManager>
 	{
 		List<AudioClip> clipList = new();
 
-		foreach(var data in dataList) {
+		foreach(var data in audioDataList.DataList) {
 
 			// w’è‚³‚ê‚½–¼‘O‚Æ“¯‚¶clip‚ğ“o˜^‚·‚é
 			foreach(var name in SENames) {
@@ -73,7 +73,7 @@ public class SEManager : AudioManager<SEManager>
 	AudioClip GetRandomClip(int dataCount)
 	{
 		int randomIndex = Random.Range(0, dataCount);
-		AudioClip randomClip = dataList[randomIndex].AudioClip;
+		AudioClip randomClip = audioDataList.DataList[randomIndex].AudioClip;
 		return randomClip;
 	}
 

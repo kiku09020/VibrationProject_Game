@@ -14,8 +14,6 @@ public class SerialHandler : MonoBehaviour
 	public event Action OnDataReceived;
 
     [Header("Serial Options")]
-    [SerializeField,Tooltip("開かれるポート名")] string openedPortName = "COM1";
-
     [SerializeField, Tooltip("開かれるポートのボーレート")] int baudRate = 9600;
 
     SerialPort serialPort;      // シリアルポート
@@ -57,15 +55,17 @@ public class SerialHandler : MonoBehaviour
 	// シリアルポートを開く
 	void Open()
     {
-        serialPort = new SerialPort(openedPortName, baudRate, Parity.None, 8, StopBits.One);        // ポートインスタンス作成
-        serialPort.Open();                                      // 作成したポートを開く
+        if (!SerialSelector.ShouldConnect && !SerialSelector.ShouldSelect) {
+            serialPort = new SerialPort(SerialSelector.TargetPortName, baudRate, Parity.None, 8, StopBits.One);        // ポートインスタンス作成
+            serialPort.Open();                                      // 作成したポートを開く
 
-        isThreadRunning = true;                                 // 実行中フラグ立てる
+            isThreadRunning = true;                                 // 実行中フラグ立てる
 
-        readingThread = new Thread(Read);                              // スレッド作成
-        readingThread.Start();                                         // スレッド開始(読み込み)
+            readingThread = new Thread(Read);                              // スレッド作成
+            readingThread.Start();                                         // スレッド開始(読み込み)
 
-        print("port was setuped.");
+            print("port was setuped.");
+        }
     }
 
     // シリアルポートを閉じる
@@ -88,6 +88,10 @@ public class SerialHandler : MonoBehaviour
             serialPort.Dispose();       // リソース開放
 
             print("port was closed.");
+        }
+
+        else {
+            Debug.LogWarning("正常に終了しませんでした");
         }
     }
 

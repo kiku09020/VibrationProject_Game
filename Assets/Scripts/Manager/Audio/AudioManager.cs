@@ -12,7 +12,7 @@ public abstract class AudioManager<T> : MonoBehaviour where T:AudioManager<T>
     [SerializeField] protected AudioSource source;
 
     [Header("Data")]
-    [SerializeField] protected List<AudioData> dataList;
+    [SerializeField] protected AudioDataList audioDataList;
 
     static List<AudioManager<T>> managerList = new(); 
 
@@ -39,7 +39,7 @@ public abstract class AudioManager<T> : MonoBehaviour where T:AudioManager<T>
 	// AudioDataのaudioNameをAudioClipのファイル名に変更
 	private void OnValidate()
 	{
-		foreach(var data in dataList) {
+		foreach(var data in audioDataList.DataList) {
             if(data.AudioClip != null) {
                 data.audioName = data.AudioClip.name;
             }
@@ -79,7 +79,7 @@ public abstract class AudioManager<T> : MonoBehaviour where T:AudioManager<T>
     /// <param name="audioName">音声の名前</param>
     public async UniTask PlayAudio(string audioName, bool isParamReset = false)
     {
-        foreach (var data in dataList) {
+        foreach (var data in audioDataList.DataList) {
             // 指定した名前と同じ名前のデータがあれば、再生
             if (data.audioName == audioName) {
 

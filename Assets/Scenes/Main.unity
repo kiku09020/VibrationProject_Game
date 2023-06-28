@@ -275,9 +275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   source: {fileID: 155663554}
-  dataList:
-  - audioName: Shooting-Star
-    audioClip: {fileID: 8300000, guid: f2c15b15a811cfe4f96fc660adb7517f, type: 3}
+  audioDataList: {fileID: 11400000, guid: 662f6935895c890499bb03eea1a3bf11, type: 2}
   firstBGM: {fileID: 8300000, guid: f2c15b15a811cfe4f96fc660adb7517f, type: 3}
 --- !u!82 &155663554
 AudioSource:
@@ -917,11 +915,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   source: {fileID: 1044494443}
-  dataList:
-  - audioName: Click
-    audioClip: {fileID: 8300000, guid: d40cae1bd05e36c4f995ee768a65b403, type: 3}
-  - audioName: Pop
-    audioClip: {fileID: 8300000, guid: b7c98c0e454b8874981e25e33efce821, type: 3}
+  audioDataList: {fileID: 11400000, guid: c56c1a425e11e6641adba1ad002e44b4, type: 2}
 --- !u!4 &1044494442
 Transform:
   m_ObjectHideFlags: 0
