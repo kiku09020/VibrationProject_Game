@@ -56,17 +56,19 @@ public abstract class SerialEventUnitBase
 			Debug.LogWarning(LogMessage);
 			return UpdateEvent.Invoke();
 		}, cancellationToken: token);
+
+		EventFlag = false;
 	}
 }
 
-public class OnDisconnectedEventUnit : SerialEventUnitBase {
+public class SerialEvent_OnDisconnected : SerialEventUnitBase {
 	public override string LogMessage => "接続が切断されました。再接続してください";
 }
 
-public class OnShouldConnectedEventUnit : SerialEventUnitBase {
+public class SerialEvent_OnConnected : SerialEventUnitBase {
 	public override string LogMessage => "シリアルポートに1つも接続されていません。";
 }
 
-public class OnShouldSelectedEventUnit : SerialEventUnitBase {
+public class SerialEvent_OnSelected : SerialEventUnitBase {
 	public override string LogMessage => "使用するデバイスが接続されているシリアルポートを選択してください。";
 }

@@ -1,1 +1,1 @@
-public class SerialSelectLog : SerialLogBase<OnShouldSelectedEventUnit> {}
+public class SerialSelectLog : SerialLogBase<SerialEvent_OnSelected> {}

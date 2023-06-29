@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO.Ports;
 using System;
-using Cysharp.Threading.Tasks;
 using System.Linq;
-using System.Threading;
 
 public static class SerialSelector
 {
@@ -15,15 +13,16 @@ public static class SerialSelector
 
     static Action OnDisconnected;
 
-    /// <summary>
-    /// 目的のポート名
-    /// </summary>
+    /// <summary> 目的のポート名 </summary>
     public static string TargetPortName { get; private set; }
 
     //--------------------------------------------------
-    // ゲーム開始前に、選択可能なシリアルポートを表示
-
-    public static void Init(Action onConnected, Action onSelected, Action onDisconnected)
+    
+    /// <summary> 使用するシリアルポートの初期化 </summary>
+    /// <param name="onConnected">      新しく接続されたときの処理 </param>
+    /// <param name="onSelected">       ポート選択処理   </param>
+    /// <param name="onDisconnected">   接続切断時の処理 </param>
+    public static void InitActiveSerialPort(Action onConnected, Action onSelected, Action onDisconnected)
     {
         OnDisconnected = onDisconnected;
 
@@ -35,6 +34,7 @@ public static class SerialSelector
 			onConnected?.Invoke();
 		}
 
+        // シリアルポートを選択する
         onSelected?.Invoke();
 	}
 
@@ -45,7 +45,7 @@ public static class SerialSelector
     {
         if (TargetPortName != null) {
             if (!serialPort.IsOpen) {
-                //OnDisconnected?.Invoke();
+                OnDisconnected?.Invoke();
             }
         }
     }
@@ -90,6 +90,7 @@ public static class SerialSelector
     {
         if (portName != null) {
             TargetPortName = portName;
+            Debug.Log($"使用するシリアルポートを {portName} に設定しました");
             return true;
         }
 

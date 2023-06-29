@@ -19,10 +19,12 @@ public class SerialSettingManager : MonoBehaviour
     [SerializeField] Button button;
     [SerializeField] Image backImage;
 
-    bool isConnected;
+    public bool IsConnected { get; private set; }
     bool enableBack;
 
-    CancellationToken token;
+    static bool checkPortFlag = true;       // ポート設定するかどうか
+
+	CancellationToken token;
 
     //--------------------------------------------------
 
@@ -30,16 +32,20 @@ public class SerialSettingManager : MonoBehaviour
     {
         token = this.GetCancellationTokenOnDestroy();
 
-        // ログイベント待機終了条件登録
-        connectingLog.RegisterEvent(SerialSelector.SetNewPortName() || isConnected,token);
-        selectingPortLog.RegisterEvent(isConnected, token);
+        if (checkPortFlag) {
+            // ログイベント待機終了条件登録
+            connectingLog.RegisterEvent(IsConnected, token);
+            selectingPortLog.RegisterEvent(IsConnected, token);
 
-        // 初期化
-        SerialSelector.Init(() => connectingLog.EventUnit.RunEvent(),
-                            () => selectingPortLog.EventUnit.RunEvent(),
-                            () => disconnectingLog.EventUnit.RunEvent());
+            // 初期化
+            SerialSelector.InitActiveSerialPort(() => connectingLog.EventUnit.RunEvent(),
+                                () => selectingPortLog.EventUnit.RunEvent(),
+                                () => disconnectingLog.EventUnit.RunEvent());
 
-        InitSelectLogUI();
+            InitSelectLogUI();
+
+            checkPortFlag = false;      // これ以降は設定しない
+        }
     }
 
     // 選択ログの初期化
@@ -52,9 +58,10 @@ public class SerialSettingManager : MonoBehaviour
 	private void FixedUpdate()
 	{
         // 無効化
-        if (!connectingLog.IsLogged && !selectingPortLog.IsLogged) {
+        if (!connectingLog.EventUnit.EventFlag && !selectingPortLog.EventUnit.EventFlag) {
             if(enableBack) {
-                backImage.DOFade(0, .5f);
+                backImage.DOFade(0, .5f)
+                         .OnComplete(() => backImage.gameObject.SetActive(false));
                 enableBack = false;
             }
         }
@@ -62,6 +69,7 @@ public class SerialSettingManager : MonoBehaviour
         // 有効化
         else {
 			if (!enableBack) {
+                backImage.gameObject.SetActive(true);
 				backImage.DOFade(.5f, .5f);
 				enableBack = true;
 			}
@@ -77,6 +85,8 @@ public class SerialSettingManager : MonoBehaviour
     {
         SerialSelector.SetNewPortName(dropdown.captionText.text);
 
-        isConnected = true;
-    }
+        IsConnected = true;
+
+		selectingPortLog.RegisterEvent(IsConnected, token);
+	}
 }

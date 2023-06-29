@@ -1,1 +1,1 @@
-public class SerialConnectedLog : SerialLogBase<OnShouldConnectedEventUnit> {}
+public class SerialConnectedLog : SerialLogBase<SerialEvent_OnConnected> {}

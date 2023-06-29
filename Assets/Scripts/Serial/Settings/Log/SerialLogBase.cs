@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,9 +16,6 @@ public class SerialLogBase<T>:MonoBehaviour where T:SerialEventUnitBase,new()
 
     T eventUnit = new T();
     public T EventUnit => eventUnit;
-
-    public bool IsLogged { get; private set; }
-
 	//--------------------------------------------------
 
 	private void Awake()
@@ -43,9 +41,9 @@ public class SerialLogBase<T>:MonoBehaviour where T:SerialEventUnitBase,new()
 	//--------------------------------------------------
 
 	/// <summary> ログ表示 </summary>
-	void DispLog()
+	protected virtual async void DispLog()
     {
-        IsLogged = true;
+        await UniTask.WaitUntil(() => transform.parent.gameObject.activeSelf);
 
 		// 親経由で自身のゲームオブジェクトをtrueにする
 		transform.parent.GetChild(transform.GetSiblingIndex()).gameObject.SetActive(true);
@@ -55,12 +53,11 @@ public class SerialLogBase<T>:MonoBehaviour where T:SerialEventUnitBase,new()
     /// <summary>
     /// ログ非表示
     /// </summary>
-    bool UndispLog(bool condition)
+    protected virtual bool UndispLog(bool condition)
     {
         if(condition) {
             Scaling();
 
-            IsLogged = false;
             return true;
         }
         return false;
