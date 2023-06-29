@@ -50,22 +50,20 @@ public class SerialHandler : MonoBehaviour
 		Close();
 	}
 
-	//--------------------------------------------------
+    //--------------------------------------------------
 
-	// シリアルポートを開く
-	void Open()
+    // シリアルポートを開く
+    void Open()
     {
-        if (!SerialSelector.ShouldConnect && !SerialSelector.ShouldSelect) {
-            serialPort = new SerialPort(SerialSelector.TargetPortName, baudRate, Parity.None, 8, StopBits.One);        // ポートインスタンス作成
-            serialPort.Open();                                      // 作成したポートを開く
+        serialPort = new SerialPort(SerialSelector.TargetPortName, baudRate, Parity.None, 8, StopBits.One);        // ポートインスタンス作成
+        serialPort.Open();                                      // 作成したポートを開く
 
-            isThreadRunning = true;                                 // 実行中フラグ立てる
+        isThreadRunning = true;                                 // 実行中フラグ立てる
 
-            readingThread = new Thread(Read);                              // スレッド作成
-            readingThread.Start();                                         // スレッド開始(読み込み)
+        readingThread = new Thread(Read);                              // スレッド作成
+        readingThread.Start();                                         // スレッド開始(読み込み)
 
-            print("port was setuped.");
-        }
+        print("port was setuped.");
     }
 
     // シリアルポートを閉じる

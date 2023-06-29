@@ -5,78 +5,52 @@ using System.IO.Ports;
 using System;
 using Cysharp.Threading.Tasks;
 using System.Linq;
+using System.Threading;
 
 public static class SerialSelector
 {
     static List<string> portNames = new List<string>();      // ポート名リスト
+
+    public static List<string> PortNames => portNames;
+
+    static Action OnDisconnected;
 
     /// <summary>
     /// 目的のポート名
     /// </summary>
     public static string TargetPortName { get; private set; }
 
-    /// <summary>
-    /// 最初にシリアルポートを選択する必要があるかどうか
-    /// </summary>
-    public static bool ShouldSelect { get; private set; }
-
-    /// <summary>
-    /// シリアルポートが接続されていないので、接続する必要があるかどうか
-    /// </summary>
-    public static bool ShouldConnect { get; private set; }
-
-    /// <summary>
-    /// 接続時のイベント
-    /// </summary>
-    public static event OnConnectedEvent OnShouldConnected;
-    public delegate bool OnConnectedEvent();
-
-    /// <summary>
-    /// 選択時のイベント
-    /// </summary>
-    public static event OnSelectedEvent OnShouldSelected;
-    public delegate bool OnSelectedEvent();
-
     //--------------------------------------------------
     // ゲーム開始前に、選択可能なシリアルポートを表示
 
-    public static async void Init()
+    public static void Init(Action onConnected, Action onSelected, Action onDisconnected)
     {
+        OnDisconnected = onDisconnected;
+
+        portNames.Clear();
         portNames.AddRange(SerialPort.GetPortNames());      // ポート名追加
 
-        // 0以下だった場合、接続する必要がある
-        if(portNames.Count <= 0 ) {
-            Debug.LogWarning("シリアルポートに1つも接続されていません。");
+        // 0以下だった場合、新しくポートを接続する必要がある
+        if (portNames.Count <= 0) {
+			onConnected?.Invoke();
+		}
 
-            await UniTask.WaitUntil(() => OnShouldConnected());       // 接続されるまで待機
+        onSelected?.Invoke();
+	}
 
-            ShouldConnect = true;
-            return;
+    /// <summary>
+    /// シリアルポートの切断チェック
+    /// </summary>
+    public static void CheckDisconnected(SerialPort serialPort)
+    {
+        if (TargetPortName != null) {
+            if (!serialPort.IsOpen) {
+                //OnDisconnected?.Invoke();
+            }
         }
-
-        // ポート名が1つだけの場合、それを目的のポート名にする
-        else if (portNames.Count == 1) {
-            Debug.Log("シリアルポートを自動で選択しました。");
-
-            ShouldSelect = false;
-            TargetPortName = portNames[0];      
-        }
-
-        // 2つ以上の場合、選択する必要がある
-        else {
-            Debug.LogWarning("シリアルポートが複数存在するため、選択する必要があります");
-
-			await UniTask.WaitUntil(() => OnShouldSelected());         // 選択されるまで待機
-
-			ShouldSelect = true;
-        }
-
-        ShouldConnect = false;
     }
 
-	// ゲーム中に、シリアルポートの接続が切断された場合に停止する
-
-
+	//--------------------------------------------------
 	// 新しく接続されたシリアルポート名を取得する
 	static string GetNewPortName()
     {
@@ -100,17 +74,29 @@ public static class SerialSelector
 	}
 
 	/// <summary>
-	/// 新しく接続されたシリアルポート名を目的のポート名にセットする
+	/// 新しく接続されたシリアルポート名を使用するポート名にセットする
 	/// </summary>
 	public static bool SetNewPortName()
     {
-        string newPortName = GetNewPortName();
+        return SetNewPortName(GetNewPortName());
+    }
 
-        if( newPortName != null ) {
-            TargetPortName = newPortName;
+    /// <summary>
+    /// 使用するシリアルポート名をセットする
+    /// </summary>
+    /// <param name="portName"></param>
+    /// <returns></returns>
+    public static bool SetNewPortName(string portName)
+    {
+        if (portName != null) {
+            TargetPortName = portName;
             return true;
         }
 
         return false;
     }
+
+	//--------------------------------------------------
+
+
 }
