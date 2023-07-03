@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 5050411423897291917}
   - component: {fileID: 5994761222114671101}
   - component: {fileID: 2349208720216899337}
-  - component: {fileID: 5557782913106862443}
+  - component: {fileID: 6366649164086669292}
   m_Layer: 5
   m_Name: SerialPortLogBase
   m_TagString: Untagged
@@ -317,7 +317,7 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &5557782913106862443
+--- !u!114 &6366649164086669292
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -326,13 +326,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 7107450375783771564}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a68397c4706b01f49990e2353fd20000, type: 3}
+  m_Script: {fileID: 11500000, guid: 307bbec4442844f4287af172a7228d4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  logMessage: Hello!!
   logMessageText: {fileID: 8966890633673704766}
   image: {fileID: 5994761222114671101}
   duration: 1
-  ease: 27
+  ease: 28
 --- !u!1 &8824264054255594451
 GameObject:
   m_ObjectHideFlags: 0

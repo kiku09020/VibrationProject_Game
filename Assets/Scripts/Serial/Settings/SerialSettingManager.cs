@@ -10,9 +10,9 @@ using UnityEngine.UI;
 public class SerialSettingManager : MonoBehaviour
 {
     [Header("Logs")]
-    [SerializeField] SerialDisconnectedLog disconnectingLog;
-    [SerializeField] SerialConnectedLog connectingLog;
-    [SerializeField] SerialSelectLog selectingPortLog;
+    [SerializeField] SerialLogBase disconnectingLog;
+    [SerializeField] SerialLogBase connectingLog;
+    [SerializeField] SerialLogBase selectingPortLog;
 
 	[Header("UI")]
     [SerializeField] TMP_Dropdown dropdown;
@@ -24,23 +24,19 @@ public class SerialSettingManager : MonoBehaviour
 
     static bool checkPortFlag = true;       // ポート設定するかどうか
 
-	CancellationToken token;
-
     //--------------------------------------------------
 
-    void Awake()
+    void Start()
     {
-        token = this.GetCancellationTokenOnDestroy();
-
         if (checkPortFlag) {
             // ログイベント待機終了条件登録
-            connectingLog.RegisterEvent(IsConnected, token);
-            selectingPortLog.RegisterEvent(IsConnected, token);
+            connectingLog.RegisterEvent();
+            selectingPortLog.RegisterEvent();
 
             // 初期化
-            SerialSelector.InitActiveSerialPort(() => connectingLog.EventUnit.RunEvent(),
-                                () => selectingPortLog.EventUnit.RunEvent(),
-                                () => disconnectingLog.EventUnit.RunEvent());
+            SerialSelector.InitActiveSerialPort(async () => await connectingLog.RunEvent(),
+                                                async () => await selectingPortLog.RunEvent(),
+                                                async () => await disconnectingLog.RunEvent());
 
             InitSelectLogUI();
 
@@ -55,26 +51,37 @@ public class SerialSettingManager : MonoBehaviour
         dropdown.AddOptions(SerialSelector.PortNames);
     }
 
+	//--------------------------------------------------
+
 	private void FixedUpdate()
 	{
-        // 無効化
-        if (!connectingLog.EventUnit.EventFlag && !selectingPortLog.EventUnit.EventFlag) {
-            if(enableBack) {
-                backImage.DOFade(0, .5f)
-                         .OnComplete(() => backImage.gameObject.SetActive(false));
-                enableBack = false;
-            }
-        }
+		SetConditions();
 
-        // 有効化
-        else {
+		// ログ背景 有効化
+		if (connectingLog.GetEventIsRunning() || selectingPortLog.GetEventIsRunning()) {
 			if (!enableBack) {
-                backImage.gameObject.SetActive(true);
+				backImage.gameObject.SetActive(true);
 				backImage.DOFade(.5f, .5f);
 				enableBack = true;
 			}
 		}
+
+        // ログ背景 無効化
+        else {
+			if (enableBack) {
+				backImage.DOFade(0, .5f)
+						 .OnComplete(() => backImage.gameObject.SetActive(false));
+				enableBack = false;
+			}
+		}
 	}
+
+    // イベント条件指定
+    void SetConditions()
+    {
+        connectingLog.SetEventEndCondition(SerialSelector.SetNewPortName());
+        selectingPortLog.SetEventEndCondition(IsConnected);
+    }
 
 	//--------------------------------------------------
 
@@ -86,7 +93,5 @@ public class SerialSettingManager : MonoBehaviour
         SerialSelector.SetNewPortName(dropdown.captionText.text);
 
         IsConnected = true;
-
-		selectingPortLog.RegisterEvent(IsConnected, token);
 	}
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.IO.Ports;
 using System.Threading;
 using System;
+using Cysharp.Threading.Tasks;
 
 /// <summary>
 /// データを送受信する、シリアル通信クラス
@@ -26,11 +27,18 @@ public class SerialHandler : MonoBehaviour
     string message;
     bool isNewMessageReceived;  // 新しくメッセージを受け取ったかどうか
 
-    //--------------------------------------------------
+    CancellationToken token;
 
-    // 開始時にポートを開く
-    void Awake()
+	//--------------------------------------------------
+
+	// 開始時にポートを開く
+	async void Awake()
     {
+        token = this.GetCancellationTokenOnDestroy();
+
+		// ポート選択されるまで待機
+		await UniTask.WaitUntil(() => SerialSelector.TargetPortName != null, cancellationToken: token);
+
         Open();
     }
 
@@ -78,8 +86,9 @@ public class SerialHandler : MonoBehaviour
         if (readingThread != null && readingThread.IsAlive) {
             // スレッドが終了するまで待機
             print("waiting");
+            readingThread.Join();
 
-            readingThread.Join(TimeSpan.FromSeconds(.5f));
+            print("Thread was joined.");
         }
 
         // ポートが開いていたら、閉じる
@@ -113,6 +122,7 @@ public class SerialHandler : MonoBehaviour
             // 例外
             catch(Exception exception) {
                 Debug.LogWarning(exception.Message);
+                break;
             }
         }
     }

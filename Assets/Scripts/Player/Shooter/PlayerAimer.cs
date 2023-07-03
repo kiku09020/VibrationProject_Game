@@ -71,13 +71,13 @@ namespace Game.Player {
 		{
 			switch(checkDirection) {
 				case Direction.up:
-					if (core.DataReceiver.Gyro.y >= aimThresholdUp) {
+					if (core.Controller.ActiveController.IsUp) {
 						break;
 					}
 					return false;
 
 					case Direction.down:
-					if (core.DataReceiver.Gyro.y <= aimThresholdDown) {
+					if (core.Controller.ActiveController.IsDown) {
 						break;
 					}
 

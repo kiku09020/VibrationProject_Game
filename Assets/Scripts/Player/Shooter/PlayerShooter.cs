@@ -40,19 +40,11 @@ namespace Game.Player
 		protected override void OnUpdate()
 		{
 			Shoot();
-
-			if (Input.GetKeyDown(KeyCode.Space)) {
-				AudioManager<BGMManager>.PauseAllAudio();
-			}
-
-			if(Input.GetKeyUp(KeyCode.Space)) {
-				AudioManager<BGMManager>.UnpauseAllAudio();
-			}
 		}
 
 		void Shoot()
 		{
-			if (core.DataReceiver.IsPressed &&!isCoolTime ) {
+			if (core.Controller.ActiveController.IsPressed && !isCoolTime ) {
 				isCoolTime = true;
 
 				// 弾のインスタンス化
@@ -75,7 +67,7 @@ namespace Game.Player
 					// 1. 長押し有効で押されている
 					// 2. 長押し無効で押されていないとき
 					// 　クールタイムリセット
-					if (!core.DataReceiver.IsPressed ^ enableLongPressShot) {
+					if (!core.Controller.ActiveController.IsPressed ^ enableLongPressShot) {
 						isCoolTime= false;
 						coolTimer = 0;
 					}

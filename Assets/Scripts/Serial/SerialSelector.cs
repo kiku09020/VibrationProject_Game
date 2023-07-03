@@ -17,7 +17,7 @@ public static class SerialSelector
     public static string TargetPortName { get; private set; }
 
     //--------------------------------------------------
-    
+
     /// <summary> 使用するシリアルポートの初期化 </summary>
     /// <param name="onConnected">      新しく接続されたときの処理 </param>
     /// <param name="onSelected">       ポート選択処理   </param>
@@ -26,16 +26,21 @@ public static class SerialSelector
     {
         OnDisconnected = onDisconnected;
 
-        portNames.Clear();
-        portNames.AddRange(SerialPort.GetPortNames());      // ポート名追加
+        // 0だった場合、新しくポートを接続する必要がある
+        if (portNames.Count == 0) {
+            onConnected?.Invoke();
+        }
 
-        // 0以下だった場合、新しくポートを接続する必要がある
-        if (portNames.Count <= 0) {
-			onConnected?.Invoke();
-		}
+        else {
+            // 使用するシリアルポートを選択する
+            onSelected?.Invoke();
+        }
+    }
 
-        // シリアルポートを選択する
-        onSelected?.Invoke();
+    public static void SetConnectedPortNames()
+    {
+		portNames.Clear();
+		portNames.AddRange(SerialPort.GetPortNames());      // ポート名追加
 	}
 
     /// <summary>
@@ -50,12 +55,12 @@ public static class SerialSelector
         }
     }
 
-	//--------------------------------------------------
-	// 新しく接続されたシリアルポート名を取得する
-	static string GetNewPortName()
+    //--------------------------------------------------
+    // 新しく接続されたシリアルポート名を取得する
+    static string GetNewPortName()
     {
-		List<string> prevPortNames = new List<string>(portNames);                       // 以前のポート名リストを保存
-		List<string> currentPortNames = new List<string>(SerialPort.GetPortNames());    // 現在のポート名リストを取得
+        List<string> prevPortNames = new List<string>(portNames);                       // 以前のポート名リストを保存
+        List<string> currentPortNames = new List<string>(SerialPort.GetPortNames());    // 現在のポート名リストを取得
 
         var addedPortNames = currentPortNames.Except(prevPortNames).ToList();           // 差分
 
@@ -63,15 +68,13 @@ public static class SerialSelector
         portNames.Clear();
         portNames.AddRange(currentPortNames);
 
-        if(addedPortNames.Count <= 0 ) {
+        if (addedPortNames.Count <= 0) {
             return null;
         }
 
-        else {
-            TargetPortName = addedPortNames[0];     // 追加
-            return addedPortNames[0];               // 追加されたシリアルポート名を返す
-        }
-	}
+        TargetPortName = addedPortNames[0];     // 追加
+        return addedPortNames[0];               // 追加されたシリアルポート名を返す
+    }
 
 	/// <summary>
 	/// 新しく接続されたシリアルポート名を使用するポート名にセットする

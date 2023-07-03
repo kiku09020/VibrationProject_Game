@@ -74,24 +74,28 @@ namespace Game.Player {
 		{
 			if(IsSideMovable) {
 				// 左方向
-				if (core.DataReceiver.Gyro.x >= movingThreshold) {
+				if (core.Controller.ActiveController.IsLeft) {
 
 					// 左の道以外だったら、現在の道を変更する
 					if (currentRoad != Roads.left) {
-						core.transform.DOLocalMoveX(-movingSideDistance, movingDuration).SetEase(movingSideEase).SetRelative();
+						core.transform.DOLocalMoveX(-movingSideDistance, movingDuration)
+							.SetEase(movingSideEase)
+							.SetRelative();
 						currentRoad--;
 					}
 				}
 
 				// 右方向
-				else if (core.DataReceiver.Gyro.x <= -movingThreshold) {
+				else if (core.Controller.ActiveController.IsRight) {
 
 					// 右の道以外だったら、現在の道を変更する
 					if(currentRoad != Roads.right) {
-						core.transform.DOLocalMoveX(movingSideDistance, movingDuration).SetEase(movingSideEase).SetRelative();
+						core.transform.DOLocalMoveX(movingSideDistance, movingDuration)
+							.SetEase(movingSideEase)
+							.SetRelative();
+
 						currentRoad++;
 					}
-
 				}
 			}
 		}
@@ -106,7 +110,7 @@ namespace Game.Player {
 			// クールタイム超えたか
 			if (movingCoolTimer >= movingCoolTimeLimit) {
 				// 閾値以上
-				if (Mathf.Abs(core.DataReceiver.Gyro.x) >= movingThreshold) {
+				if (core.Controller.ActiveController.IsAxisX) {
 					if (!isTilted || continueTilted) {
 						IsSideMovable = true;                   // 動けるようにする
 						isTilted = true;

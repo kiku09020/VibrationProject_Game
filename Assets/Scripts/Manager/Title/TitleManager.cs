@@ -7,13 +7,17 @@ namespace Title {
     public class TitleManager : MonoBehaviour {
 
 		[SerializeField] SerialSettingManager serSettingManager;
+		[SerializeField] DeviceDataReceiver dataReceiver;
 
 		//--------------------------------------------------
 
 		private void Update()
 		{
-			if (Input.GetKeyDown(KeyCode.Space) && serSettingManager.IsConnected) {
-				SceneManager.LoadScene("Main");
+			// 接続されていて、ボタン押したときにシーン読み込み
+			if (serSettingManager.IsConnected && SerialSelector.TargetPortName != null) {
+				if(Input.GetKeyDown(KeyCode.Space) || dataReceiver.IsPressed) {
+					SceneManager.LoadScene("Main");
+				}
 			}
 		}
 	}

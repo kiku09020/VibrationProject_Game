@@ -2,19 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDataReceiver : DataReceiver_Base {
+public class DeviceDataReceiver : DataReceiver_Base {
 
 	[SerializeField] int dataLength = 3;
 
-	/// <summary>
-	/// デバイスの傾き
-	/// </summary>
+	/// <summary> デバイスの傾き </summary>
 	public Vector2 Gyro { get; private set; }
 
-	/// <summary>
-	/// ボタンが押されたかどうか
-	/// </summary>
+	/// <summary> ボタンが押されたかどうか </summary>
 	public bool IsPressed { get; private set; }
+
+	/// <summary> ボタンが離されたかどうか </summary>
+	public bool IsReleased { get; private set; }
 
 	protected override void OnReceivedData()
 	{

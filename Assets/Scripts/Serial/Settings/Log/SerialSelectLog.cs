@@ -1,1 +1,0 @@
-public class SerialSelectLog : SerialLogBase<SerialEvent_OnSelected> {}

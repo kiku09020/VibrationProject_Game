@@ -7,18 +7,43 @@ using UnityEngine;
 /// </summary>
 public abstract class ObjectCore :MonoBehaviour
 {
-    /// <summary>
-    /// 初期化時のイベント
-    /// </summary>
-    public abstract event Action OnStartEvent;
+    /// <summary> Startで呼び出されるイベント		</summary>
+    public virtual event Action OnStartEvent;
 
-    /// <summary>
-    /// 更新時のイベント
-    /// </summary>
-    public abstract event Action OnUpdateEvent;
+    /// <summary> Updateで呼び出されるイベント		</summary>
+    public virtual event Action OnUpdateEvent;
 
+	/// <summary> FixedUpdateで呼び出されるイベント </summary>
+	public virtual event Action OnFixedUpdateEvent;
+
+	/// <summary> OnDestroyで呼び出されるイベント	</summary>
+	public virtual event Action OnDestroiedEvent;
+
+	//--------------------------------------------------
+
+	protected virtual void Start()
+	{
+		OnStartEvent?.Invoke();
+	}
+
+	protected virtual void Update()
+	{
+		OnUpdateEvent?.Invoke();
+	}
+
+	protected virtual void FixedUpdate()
+	{
+		OnFixedUpdateEvent?.Invoke();
+	}
+
+	protected virtual void OnDestroy()
+	{
+		OnDestroiedEvent?.Invoke();
+	}
+
+	//--------------------------------------------------
 	/// <summary>
-	/// Coreに付属のコンポーネントを取得
+	/// Coreの付属のコンポーネントを取得
 	/// </summary>
 	/// <typeparam name="T">コンポーネント</typeparam>
 	/// <param name="checkChildren">子のコンポーネントを含めるか</param>

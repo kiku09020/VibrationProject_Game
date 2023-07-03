@@ -6,28 +6,31 @@ using UnityEngine;
 namespace Game.Player {
     public class PlayerCore : ObjectCore {
 
-        [SerializeField] PlayerDataReceiver dataReceiver;
+        [SerializeField] DeviceDataReceiver dataReceiver;
+        [SerializeField] PlayerController playerController;
 
         /* Properties */
         /// <summary>
         /// デバイスの入力情報
         /// </summary>
-        public PlayerDataReceiver DataReceiver { get => dataReceiver; }
-
-        /* Events */
-        public override event Action OnStartEvent;
-        public override event Action OnUpdateEvent;
+        public DeviceDataReceiver DataReceiver => dataReceiver; 
+        public PlayerController Controller => playerController;
 
         //--------------------------------------------------
 
-        void Start()
+        protected override void Start()
         {
-            OnStartEvent();
+            base.Start();
         }
 
-        void FixedUpdate()
+		protected override void Update()
+		{
+			base.Update();
+		}
+
+		protected override void FixedUpdate()
         {
-            OnUpdateEvent();
+            base.FixedUpdate();
         }
 
         //--------------------------------------------------
