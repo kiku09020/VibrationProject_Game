@@ -16,8 +16,11 @@ public abstract class DataReceiver_Base:MonoBehaviour
 
 	//--------------------------------------------------
 
-	private void Awake()
+	private void Start()
 	{
-		handler.OnDataReceived += OnReceivedData;
+		// ƒ|[ƒg‚ªÚ‘±‚³‚ê‚Ä‚¢‚é‚Æ‚«‚Ì‚İ“o˜^‚·‚é
+		if (handler.IsPortEnable) {
+			handler.OnDataReceived += OnReceivedData;
+		}
 	}
 }

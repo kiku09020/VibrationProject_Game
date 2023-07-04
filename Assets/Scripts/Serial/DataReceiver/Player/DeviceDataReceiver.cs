@@ -10,10 +10,12 @@ public class DeviceDataReceiver : DataReceiver_Base {
 	public Vector2 Gyro { get; private set; }
 
 	/// <summary> ボタンが押されたかどうか </summary>
-	public bool IsPressed { get; private set; }
+	public bool IsPressedA { get; private set; }
 
 	/// <summary> ボタンが離されたかどうか </summary>
 	public bool IsReleased { get; private set; }
+
+	public bool IsPressedB { get; private set; }
 
 	protected override void OnReceivedData()
 	{
@@ -28,7 +30,7 @@ public class DeviceDataReceiver : DataReceiver_Base {
 				Gyro = new Vector2(x, y);
 
 				// 押されたかどうかをbool型に変換
-				IsPressed = bool.Parse(data[2]);
+				IsPressedA = bool.Parse(data[2]);
 			}
 		}
 

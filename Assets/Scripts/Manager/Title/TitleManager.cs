@@ -15,7 +15,7 @@ namespace Title {
 		{
 			// 接続されていて、ボタン押したときにシーン読み込み
 			if (serSettingManager.IsConnected && SerialSelector.TargetPortName != null) {
-				if(Input.GetKeyDown(KeyCode.Space) || dataReceiver.IsPressed) {
+				if(Input.GetKeyDown(KeyCode.Space) || dataReceiver.IsPressedA) {
 					SceneManager.LoadScene("Main");
 				}
 			}

@@ -29,6 +29,9 @@ public class SerialHandler : MonoBehaviour
 
     CancellationToken token;
 
+    /// <summary> ポートが有効か </summary>
+    public bool IsPortEnable => serialPort != null;
+
 	//--------------------------------------------------
 
 	// 開始時にポートを開く
