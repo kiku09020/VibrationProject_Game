@@ -8,9 +8,6 @@ namespace Game.Player {
 
 		/* Fields */
 		[Header("Controll")]
-		[SerializeField, Tooltip("移動閾値"), Range(0, 1)]
-		float movingThreshold = .6f;
-
 		[SerializeField, Tooltip("移動クールタイム"), Range(0, 1)]
 		float movingCoolTimeLimit = .5f;
 
@@ -55,12 +52,17 @@ namespace Game.Player {
 
 		//--------------------------------------------------
 
+		// 横移動：入力するのでUpdate
 		protected override void OnUpdate()
 		{
 			SetSideMovable();
-
-			MoveForward();
 			MoveSide();
+		}
+
+		// 前移動：FixedUpdate
+		protected override void OnFixedUpdate()
+		{
+			MoveForward();
 		}
 
 		// 前進

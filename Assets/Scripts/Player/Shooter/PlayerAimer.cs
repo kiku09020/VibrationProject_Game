@@ -9,12 +9,6 @@ namespace Game.Player {
 	/// </summary>
     public class PlayerAimer : PlayerBaseComponent {
 
-		[Header("Controll")]
-		[SerializeField, Tooltip("照準上移動閾値"), Range(0, 1)]
-		float aimThresholdUp = .6f;
-		[SerializeField, Tooltip("照準下移動閾値"), Range(-.5f, .5f)]
-		float aimThresholdDown = .6f;
-
 		[Header("CheckX")]
 		[SerializeField, Tooltip("左右移動の閾値チェックするか。" )]
 		bool checkAimThresholdX = true;

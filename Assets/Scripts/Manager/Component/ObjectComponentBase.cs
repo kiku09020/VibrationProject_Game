@@ -6,7 +6,6 @@ public abstract class ObjectComponentBase<T> : MonoBehaviour where T : ObjectCor
 {
     [Header("Core")]
     [SerializeField] protected T core;
-    [SerializeField] bool isFixedUpdate = true;
 
     //--------------------------------------------------
 
@@ -14,16 +13,11 @@ public abstract class ObjectComponentBase<T> : MonoBehaviour where T : ObjectCor
     {
         // ƒCƒxƒ“ƒg’Ç‰Á
         core.OnStartEvent += OnStart;
-
-        if (isFixedUpdate) {
-            core.OnFixedUpdateEvent += OnUpdate;
-        }
-
-        else {
-            core.OnUpdateEvent += OnUpdate;
-        }
+        core.OnFixedUpdateEvent += OnFixedUpdate;
+        core.OnUpdateEvent += OnUpdate;
     }
 
     protected virtual void OnStart() { }
     protected virtual void OnUpdate() { }
+    protected virtual void OnFixedUpdate() { }
 }
