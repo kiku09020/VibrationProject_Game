@@ -80,6 +80,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6366649164086669292, guid: 72fa8bcda9dbf1a4b95f98209a726d1c, type: 3}
+      propertyPath: condition
+      value: 
+      objectReference: {fileID: 3290045274373552662}
+    - target: {fileID: 6366649164086669292, guid: 72fa8bcda9dbf1a4b95f98209a726d1c, type: 3}
       propertyPath: logMessage
       value: "\u4F7F\u7528\u53EF\u80FD\u306A\u30B7\u30EA\u30A2\u30EB\u30DD\u30FC\u30C8\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093\u3002\nUSB\u306B\u30C7\u30D0\u30A4\u30B9\u3092\u63A5\u7D9A\u3057\u3066\u304F\u3060\u3055\u3044\u3002"
       objectReference: {fileID: 0}
@@ -105,7 +109,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7107450375783771564, guid: 72fa8bcda9dbf1a4b95f98209a726d1c, type: 3}
       propertyPath: m_Name
-      value: ConnectedLog
+      value: DisconnectedFirstLog
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72fa8bcda9dbf1a4b95f98209a726d1c, type: 3}
+--- !u!1 &8213810892905733090 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7107450375783771564, guid: 72fa8bcda9dbf1a4b95f98209a726d1c, type: 3}
+  m_PrefabInstance: {fileID: 1396095031087969870}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3290045274373552662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8213810892905733090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 713af3cb9e1e100499da59179825aaa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

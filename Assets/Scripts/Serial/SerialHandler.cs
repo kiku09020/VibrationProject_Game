@@ -35,12 +35,12 @@ public class SerialHandler : MonoBehaviour
 	//--------------------------------------------------
 
 	// 開始時にポートを開く
-	async void Awake()
+	void Awake()
     {
         token = this.GetCancellationTokenOnDestroy();
 
 		// ポート選択されるまで待機
-		await UniTask.WaitUntil(() => SerialSelector.TargetPortName != null, cancellationToken: token);
+		UniTask.WaitUntil(() => SerialSelector.TargetPortName != null, cancellationToken: token).Forget();
 
         Open();
     }

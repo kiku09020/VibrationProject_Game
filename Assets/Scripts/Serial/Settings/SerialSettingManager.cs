@@ -10,14 +10,15 @@ using UnityEngine.UI;
 public class SerialSettingManager : MonoBehaviour
 {
     [Header("Logs")]
-    [SerializeField] SerialLogBase disconnectingLog;
-    [SerializeField] SerialLogBase connectingLog;
-    [SerializeField] SerialLogBase selectingPortLog;
+    [SerializeField] List<SerialSettingLog> logList = new List<SerialSettingLog>();
 
 	[Header("UI")]
     [SerializeField] TMP_Dropdown dropdown;
     [SerializeField] Button button;
     [SerializeField] Image backImage;
+
+    [Header("Parameters")]
+    [SerializeField] float waitDuration = 3;
 
     public bool IsConnected { get; private set; }
     bool enableBack;
@@ -29,36 +30,23 @@ public class SerialSettingManager : MonoBehaviour
     void Start()
     {
         if (checkPortFlag) {
-            // ログイベント待機終了条件登録
-            connectingLog.RegisterEvent();
-            selectingPortLog.RegisterEvent();
-
-            // 初期化
-            SerialSelector.InitActiveSerialPort(async () => await connectingLog.RunEvent(),
-                                                async () => await selectingPortLog.RunEvent(),
-                                                async () => await disconnectingLog.RunEvent());
-
-            InitSelectLogUI();
-
             checkPortFlag = false;      // これ以降は設定しない
         }
-    }
 
-    // 選択ログの初期化
-    void InitSelectLogUI()
-    {
-        dropdown.ClearOptions();
-        dropdown.AddOptions(SerialSelector.PortNames);
+        SetSelectLogUI();
+
+        // 切断判定
+        SerialSelector.CheckDisconnected(this.GetCancellationTokenOnDestroy());
     }
 
 	//--------------------------------------------------
 
 	private void FixedUpdate()
 	{
-		SetConditions();
+        RunLogEvents();
 
 		// ログ背景 有効化
-		if (connectingLog.GetEventIsRunning() || selectingPortLog.GetEventIsRunning()) {
+		if (CheckLogConditions()) {
 			if (!enableBack) {
 				backImage.gameObject.SetActive(true);
 				backImage.DOFade(.5f, .5f);
@@ -76,22 +64,54 @@ public class SerialSettingManager : MonoBehaviour
 		}
 	}
 
-    // イベント条件指定
-    void SetConditions()
+    // ドロップダウンのオプションの更新
+    void SetSelectLogUI()
     {
-        connectingLog.SetEventEndCondition(SerialSelector.SetNewPortName());
-        selectingPortLog.SetEventEndCondition(IsConnected);
+        dropdown.ClearOptions();
+        dropdown.AddOptions(SerialSelector.CheckPortNames());       // ポート名を取得して追加
     }
 
 	//--------------------------------------------------
 
-	/// <summary>
-	/// ポートを登録する
-	/// </summary>
-	public void RegisterTargetPort()
+	// ログイベントの実行
+	void RunLogEvents()
     {
-        SerialSelector.SetNewPortName(dropdown.captionText.text);
+        for(int i = 0; i < logList.Count; i++) {
+            var current = logList[i];
 
-        IsConnected = true;
+            // 現在のインスタンスより前の要素の条件がfalseか
+            bool enable = logList.GetRange(0, i).TrueForAll(x => !x.SettingCondition.Condition);
+
+            // 有効であれば、実行
+            if(enable) {
+                current.RunEvent();
+            }
+        }
 	}
+
+    // 条件満たしているか
+    bool CheckLogConditions()
+    {
+        foreach(var log in  logList) {
+            if (log.SettingCondition.Condition) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+	//--------------------------------------------------
+    /* UI Event Methods */
+
+    // ドロップダウンのオプションの更新
+    public void ReloadDropDownOptions()
+    {
+        SetSelectLogUI();
+    }
+
+    public void SetDeviceName()
+    {
+        SerialSelector.SetNewPortName(dropdown.options[dropdown.value].text);
+    }
 }

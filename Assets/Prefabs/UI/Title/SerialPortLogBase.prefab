@@ -332,7 +332,8 @@ MonoBehaviour:
   logMessage: Hello!!
   logMessageText: {fileID: 8966890633673704766}
   image: {fileID: 5994761222114671101}
-  duration: 1
+  condition: {fileID: 0}
+  duration: 0.5
   ease: 28
 --- !u!1 &8824264054255594451
 GameObject:

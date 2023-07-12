@@ -10,7 +10,7 @@ using UnityEngine.UI;
 /// <summary>
 /// シリアル接続時のログ。タイトルで表示する
 /// </summary>
-public class SerialLogBase:MonoBehaviour 
+public class SerialSettingLog:MonoBehaviour 
 {
 	/* Fields */
 	[Header("Parameters")]
@@ -20,11 +20,14 @@ public class SerialLogBase:MonoBehaviour
 	[SerializeField] TextMeshProUGUI logMessageText;
 	[SerializeField] Image image;
 
+	[SerializeField] SerialSettingCondition condition;
+
 	[Header("TweenParameters")]
 	[SerializeField] float duration;
 	[SerializeField] Ease ease;
 
-	SerialEventUnitBase eventUnit;
+	SerialSettingEvent eventUnit;
+	public SerialSettingCondition SettingCondition => condition;
 
 	CancellationToken token;
 	//--------------------------------------------------
@@ -32,11 +35,13 @@ public class SerialLogBase:MonoBehaviour
 	private void Awake()
 	{
 		// ログメッセージの指定
-		eventUnit = new SerialEventUnitBase(logMessage);
+		eventUnit = new SerialSettingEvent();
         logMessageText.text = logMessage;
 
         gameObject.SetActive(false);								// ゲームオブジェクト無効化
 		token = this.GetCancellationTokenOnDestroy();
+
+		eventUnit.RegisterEvents(() => DispLog(), () => SettingCondition.CheckCondition(), () => UndispLog());
 	}
 
 	private void OnDestroy()
@@ -45,28 +50,11 @@ public class SerialLogBase:MonoBehaviour
 	}
 
 	//--------------------------------------------------
-	/// <summary> イベント登録 </summary>
-	public void RegisterEvent()
-    {
-		eventUnit.RegisterEvents(() => DispLog(), () => UndispLog(), token);
-    }
 
 	/// <summary> イベント実行 </summary>
-	public async UniTask RunEvent()
+	public void RunEvent()
 	{
-		await eventUnit.RunEvent();
-	}
-
-	/// <summary> イベントが実行中かを取得する </summary>
-	public bool GetEventIsRunning()
-	{
-		return eventUnit.IsRunning;
-	}
-
-	/// <summary> イベントの終了条件をセットする </summary>
-	public void SetEventEndCondition(bool endCondition)
-	{
-		eventUnit.SetEndCondition(endCondition);
+		eventUnit.RunEvent(SettingCondition.Condition);
 	}
 
 	//--------------------------------------------------
@@ -86,6 +74,7 @@ public class SerialLogBase:MonoBehaviour
     {
         Scaling();
     }
+
 	//--------------------------------------------------
 
 	// 拡大縮小

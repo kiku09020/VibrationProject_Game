@@ -143,6 +143,64 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &2466748454396642449
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 527678822051279294}
+  - component: {fileID: 2276330334661200632}
+  m_Layer: 6
+  m_Name: HitChecker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &527678822051279294
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2466748454396642449}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6684504636128279971}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &2276330334661200632
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2466748454396642449}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0.05
 --- !u!1 &3211440693181342678
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,9 +248,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   core: {fileID: 6684504636128279982}
-  isFixedUpdate: 0
-  aimThresholdUp: 0.75
-  aimThresholdDown: 0.1
   checkAimThresholdX: 1
   movingThresholdX: 0.5
   aimAngle: 20
@@ -212,7 +267,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   core: {fileID: 6684504636128279982}
-  isFixedUpdate: 0
   bullet: {fileID: 6623940215688847727, guid: 119ee5b425fe7c841b1ad82a38d6e93d, type: 3}
   shotPower: 50
   coolTimeLimit: 0.5
@@ -266,8 +320,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f46add1a64e74e745a7729adb0f88cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  core: {fileID: 6684504636128279982}
-  isFixedUpdate: 0
   deviceDataReceiver: {fileID: 5736015514761896470}
   threasholds:
     upThreashold: 0.7
@@ -333,7 +385,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   core: {fileID: 6684504636128279982}
-  isFixedUpdate: 1
   initState: {fileID: 6841244424800306086}
   states:
   - {fileID: 6841244424800306086}
@@ -385,6 +436,7 @@ Transform:
   - {fileID: 2431471097838689867}
   - {fileID: 5921599321263545454}
   - {fileID: 1640001041014540085}
+  - {fileID: 527678822051279294}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -467,8 +519,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   core: {fileID: 6684504636128279982}
-  isFixedUpdate: 1
-  movingThreshold: 0.5
   movingCoolTimeLimit: 0.25
   continueTilted: 0
   currentRoad: 1

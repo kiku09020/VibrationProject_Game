@@ -1,11 +1,9 @@
 {
-    "name": "Player",
-    "rootNamespace": "Game.Player",
+    "name": "GameBase",
+    "rootNamespace": "GameBase",
     "references": [
-        "UniTask",
-        "Base",
-        "GameBase",
-        "Bullet"
+        "GUID:71144de870776c14bb889aac977d2a41",
+        "GUID:8c5668f1f7f688b4aa958aefd7ffaa32"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
