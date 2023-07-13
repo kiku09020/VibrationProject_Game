@@ -65,13 +65,13 @@ namespace Game.Player {
 		{
 			switch(checkDirection) {
 				case Direction.up:
-					if (core.Controller.ActiveController.IsUp) {
+					if (PlayerController.ActiveController.IsUp) {
 						break;
 					}
 					return false;
 
 					case Direction.down:
-					if (core.Controller.ActiveController.IsDown) {
+					if (PlayerController.ActiveController.IsDown) {
 						break;
 					}
 

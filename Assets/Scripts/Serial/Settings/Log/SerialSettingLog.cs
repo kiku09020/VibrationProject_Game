@@ -66,7 +66,8 @@ public class SerialSettingLog:MonoBehaviour
 
 		// 親経由で自身のゲームオブジェクトをtrueにする
 		transform.parent.GetChild(transform.GetSiblingIndex()).gameObject.SetActive(true);
-        Scaling(true);
+		image.rectTransform.localScale = Vector3.one;
+		Scaling(true);
     }
 
     /// <summary> ログ非表示 </summary>

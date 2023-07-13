@@ -2,23 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Title {
     public class TitleManager : MonoBehaviour {
 
-		[SerializeField] SerialSettingManager serSettingManager;
-		[SerializeField] DeviceDataReceiver dataReceiver;
-
-		//--------------------------------------------------
-
-		private void Update()
+		/// <summary> シーン読み込み </summary>
+		public void LoadMainScene()
 		{
-			// 接続されていて、ボタン押したときにシーン読み込み
-			if (serSettingManager.IsConnected && SerialSelector.TargetPortName != null) {
-				if(Input.GetKeyDown(KeyCode.Space) || dataReceiver.IsPressedA) {
-					SceneManager.LoadScene("Main");
-				}
-			}
+			SceneManager.LoadScene("Main");
 		}
 	}
 }

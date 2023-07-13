@@ -2,7 +2,6 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,10 +16,6 @@ public class SerialSettingManager : MonoBehaviour
     [SerializeField] Button button;
     [SerializeField] Image backImage;
 
-    [Header("Parameters")]
-    [SerializeField] float waitDuration = 3;
-
-    public bool IsConnected { get; private set; }
     bool enableBack;
 
     static bool checkPortFlag = true;       // ポート設定するかどうか
@@ -36,7 +31,7 @@ public class SerialSettingManager : MonoBehaviour
         SetSelectLogUI();
 
         // 切断判定
-        SerialSelector.CheckDisconnected(this.GetCancellationTokenOnDestroy());
+        SerialSelector.CheckDisconnected(this.GetCancellationTokenOnDestroy()).Forget();
     }
 
 	//--------------------------------------------------
@@ -78,6 +73,7 @@ public class SerialSettingManager : MonoBehaviour
     {
         for(int i = 0; i < logList.Count; i++) {
             var current = logList[i];
+            var targetList = logList;
 
             // 現在のインスタンスより前の要素の条件がfalseか
             bool enable = logList.GetRange(0, i).TrueForAll(x => !x.SettingCondition.Condition);
@@ -113,5 +109,10 @@ public class SerialSettingManager : MonoBehaviour
     public void SetDeviceName()
     {
         SerialSelector.SetNewPortName(dropdown.options[dropdown.value].text);
+    }
+    
+    public void ResetDeviceName()
+    {
+        SerialSelector.ResetTargetName();
     }
 }

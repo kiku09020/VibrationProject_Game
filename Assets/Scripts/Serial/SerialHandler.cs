@@ -4,14 +4,10 @@ using System.Threading;
 using System;
 using Cysharp.Threading.Tasks;
 
-/// <summary>
-/// データを送受信する、シリアル通信クラス
-/// </summary>
+/// <summary> データを送受信する、シリアル通信クラス </summary>
 public class SerialHandler : MonoBehaviour
 {
-	/// <summary>
-	/// シリアル通信で、データを受け取った時のイベント
-	/// </summary>
+	/// <summary> シリアル通信で、データを受け取った時のイベント </summary>
 	public event Action OnDataReceived;
 
     [Header("Serial Options")]
@@ -27,20 +23,15 @@ public class SerialHandler : MonoBehaviour
     string message;
     bool isNewMessageReceived;  // 新しくメッセージを受け取ったかどうか
 
-    CancellationToken token;
-
     /// <summary> ポートが有効か </summary>
     public bool IsPortEnable => serialPort != null;
 
 	//--------------------------------------------------
-
 	// 開始時にポートを開く
-	void Awake()
+	async void Awake()
     {
-        token = this.GetCancellationTokenOnDestroy();
-
 		// ポート選択されるまで待機
-		UniTask.WaitUntil(() => SerialSelector.TargetPortName != null, cancellationToken: token).Forget();
+		await UniTask.WaitUntil(() => SerialSelector.TargetPortName != null, cancellationToken: this.GetCancellationTokenOnDestroy());
 
         Open();
     }
@@ -49,7 +40,7 @@ public class SerialHandler : MonoBehaviour
     {
         // 受け取ったら、受け取り時の処理を実行
         if(isNewMessageReceived) {
-             OnDataReceived();
+             OnDataReceived?.Invoke();
         }
 
         isNewMessageReceived = false;
@@ -62,7 +53,6 @@ public class SerialHandler : MonoBehaviour
 	}
 
     //--------------------------------------------------
-
     // シリアルポートを開く
     void Open()
     {
@@ -72,8 +62,8 @@ public class SerialHandler : MonoBehaviour
 
             isThreadRunning = true;                                 // 実行中フラグ立てる
 
-            readingThread = new Thread(Read);                              // スレッド作成
-            readingThread.Start();                                         // スレッド開始(読み込み)
+            readingThread = new Thread(Read);                       // スレッド作成
+            readingThread.Start();                                  // スレッド開始(読み込み)
 
             print("port was setuped.");
         }
@@ -88,14 +78,13 @@ public class SerialHandler : MonoBehaviour
 
         if (readingThread != null && readingThread.IsAlive) {
             // スレッドが終了するまで待機
-            print("waiting");
             readingThread.Join();
 
             print("Thread was joined.");
         }
 
         // ポートが開いていたら、閉じる
-        if (serialPort != null && serialPort.IsOpen) {
+        if (IsPortEnable && serialPort.IsOpen) {
             serialPort.Close();         // 閉じる
             serialPort.Dispose();       // リソース開放
 
@@ -108,12 +97,10 @@ public class SerialHandler : MonoBehaviour
     }
 
 	//--------------------------------------------------
-
 	// シリアルポートに読み込む
 	void Read()
     {
-        while (isThreadRunning && serialPort != null && serialPort.IsOpen) {
-
+        while (isThreadRunning && IsPortEnable && serialPort.IsOpen) {
             try {
                 // ポートからのバイト数が0より多かったら、読み込み
                 if (serialPort.BytesToRead > 0) {
@@ -125,14 +112,19 @@ public class SerialHandler : MonoBehaviour
             // 例外
             catch(Exception exception) {
                 Debug.LogWarning(exception.Message);
-                break;
+                message = null;
+
+                if (serialPort != null) {
+                    serialPort.Close();
+                    serialPort.Dispose();
+
+                    SerialSelector.ResetTargetName();
+                }
             }
         }
     }
 
-	/// <summary>
-	/// シリアルポートに書き込む
-	/// </summary>
+	/// <summary> シリアルポートに書き込む </summary>
 	/// <param name="message">書き込む文字列</param>
 	public void Write(string message)
     {
@@ -141,17 +133,13 @@ public class SerialHandler : MonoBehaviour
             serialPort.Write(message);
         }
 
-        // 警告
         catch (Exception exception){
             Debug.LogWarning(exception.Message);
         }
     }
 
     //--------------------------------------------------
-
-    /// <summary>
-    /// コンマで区切られたメッセージを返す
-    /// </summary>
+    /// <summary> コンマで区切られたメッセージを返す </summary>
     public string[] GetSplitedData()
     {
         // 受け取ったメッセージを区切る

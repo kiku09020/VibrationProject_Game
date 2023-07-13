@@ -44,7 +44,7 @@ namespace Game.Player
 
 		void Shoot()
 		{
-			if (core.Controller.ActiveController.IsPressed && !isCoolTime ) {
+			if (PlayerController.ActiveController.IsPressed && !isCoolTime ) {
 				isCoolTime = true;
 
 				// 弾のインスタンス化
@@ -67,7 +67,7 @@ namespace Game.Player
 					// 1. 長押し有効で押されている
 					// 2. 長押し無効で押されていないとき
 					// 　クールタイムリセット
-					if (!core.Controller.ActiveController.IsPressed ^ enableLongPressShot) {
+					if (!PlayerController.ActiveController.IsPressed ^ enableLongPressShot) {
 						isCoolTime= false;
 						coolTimer = 0;
 					}

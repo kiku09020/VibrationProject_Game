@@ -76,7 +76,7 @@ namespace Game.Player {
 		{
 			if(IsSideMovable) {
 				// 左方向
-				if (core.Controller.ActiveController.IsLeft) {
+				if (PlayerController.ActiveController.IsLeft) {
 
 					// 左の道以外だったら、現在の道を変更する
 					if (currentRoad != Roads.left) {
@@ -88,7 +88,7 @@ namespace Game.Player {
 				}
 
 				// 右方向
-				else if (core.Controller.ActiveController.IsRight) {
+				else if (PlayerController.ActiveController.IsRight) {
 
 					// 右の道以外だったら、現在の道を変更する
 					if(currentRoad != Roads.right) {
@@ -112,7 +112,7 @@ namespace Game.Player {
 			// クールタイム超えたか
 			if (movingCoolTimer >= movingCoolTimeLimit) {
 				// 閾値以上
-				if (core.Controller.ActiveController.IsAxisX) {
+				if (PlayerController.ActiveController.IsAxisX) {
 					if (!isTilted || continueTilted) {
 						IsSideMovable = true;                   // 動けるようにする
 						isTilted = true;

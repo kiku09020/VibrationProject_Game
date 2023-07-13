@@ -25,10 +25,14 @@ public static class SerialSelector
     public static bool IsMultiple => (TargetPortName == null);
 
     //--------------------------------------------------
+    /// <summary> 目標のポート名をリセットする </summary>
+    public static void ResetTargetName()
+    {
+        TargetPortName = null;
+    }
 
-    /// <summary>
-    /// ポート名の更新
-    /// </summary>
+    //--------------------------------------------------
+    /// <summary> ポート名の更新 </summary>
     public static List<string> CheckPortNames()
     {
         var names = new List<string>(SerialPort.GetPortNames());
@@ -39,10 +43,8 @@ public static class SerialSelector
         return names;
     }
 
-    /// <summary>
-    /// 切断判定
-    /// </summary>
-    public static async void CheckDisconnected(CancellationToken token)
+    /// <summary> 切断判定 </summary>
+    public static async UniTask CheckDisconnected(CancellationToken token)
     {
         while (true) {
             await UniTask.Delay(TimeSpan.FromSeconds(1), cancellationToken: token);       // 待機
@@ -62,8 +64,9 @@ public static class SerialSelector
 		}
 	}
 
-    // 新しく接続されたシリアルポート名を取得する
-    static string GetNewPortName()
+	//--------------------------------------------------
+	// 新しく接続されたシリアルポート名を取得する
+	static string GetNewPortName()
     {
         var addedPortNames = SerialPort.GetPortNames().Except(portNames).ToArray();           // 差分
 
@@ -98,8 +101,4 @@ public static class SerialSelector
 
         return false;
     }
-
-	//--------------------------------------------------
-
-
 }

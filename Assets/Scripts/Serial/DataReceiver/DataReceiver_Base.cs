@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 /// <summary>
@@ -16,8 +17,11 @@ public abstract class DataReceiver_Base:MonoBehaviour
 
 	//--------------------------------------------------
 
-	private void Start()
+	private async void Start()
 	{
+		// 接続可能になるまで待機
+		await UniTask.WaitUntil(() => handler.IsPortEnable, cancellationToken: this.GetCancellationTokenOnDestroy());
+
 		// ポートが接続されているときのみ登録する
 		if (handler.IsPortEnable) {
 			handler.OnDataReceived += OnReceivedData;

@@ -16,7 +16,11 @@ public class PlayerController : MonoBehaviour {
 	KeyController key;
 	DeviceController device;
 
-	public ControllerBase ActiveController { get; private set; }
+	/// <summary>  有効なコントローラー </summary>
+	public static ControllerBase ActiveController { get; private set; }
+
+	/// <summary> コントローラーがデバイスかどうか </summary>
+	public static bool ActiveCtrlIsDevice => (ActiveController is DeviceController);
 
 	//--------------------------------------------------
 
